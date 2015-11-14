@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "removeComments": true,
+    "declaration": false,
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "filesGlob": [
+    "./**/*.ts",
+    "!./node_modules/**/*.ts",
+    "!./dist/**/*.ts",
+    "!./typings/*/**/*.ts"
+  ],
+  "files": [
+    "./src/app.ts",
+    "./typings/tsd.d.ts"
+  ]
+}
