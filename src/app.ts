@@ -1,17 +1,22 @@
-import {dm} from 'nodedm';
+import * as errorHandler from './error_handler';
+import * as machine from './machine';
+
+var r = require('koa-route');
+var bodyParser = require('koa-bodyparser');
 var koa = require('koa');
 var app = koa();
 
-app.use(function *(next){
-  var start = Date.now();
-  yield next;
-  var ms = Date.now() - start;
-  console.log('%s %s - %s', this.method, this.url, ms);
-});
+app.use(errorHandler.handle);
+app.use(bodyParser());
+app.use(require('koa-trie-router')(app));
 
-// response
-app.use(function *(){
-  this.body = yield dm.inspect('vbox0')
-});
+app.route('/machines')
+  .get(machine.list)
+  .post(machine.create);
+
+app.route('/machines/:name')
+  .get(machine.inspect)
+  .post(machine.create)
+  .delete(machine.remove);
 
 app.listen(3000);
