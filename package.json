@@ -1,10 +1,11 @@
 {
-  "name": "dmm",
+  "name": "dmm-backend",
   "version": "0.0.1",
-  "description": "Docker Machine Manager",
+  "description": "Docker Machine Manager (Backend)",
   "main": "/dist/app.js",
   "scripts": {
-    "setup": "npm install && node node_modules/tsd/build/cli.js install && node node_modules/tsd/build/cli.js link && node node_modules/typescript/bin/tsc",
+    "setup": "npm install && node node_modules/tsd/build/cli.js install && node node_modules/tsd/build/cli.js link",
+    "build": "npm run setup && node node_modules/typescript/bin/tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -12,17 +13,16 @@
     "maanger"
   ],
   "author": "Lawrence Cheung",
-  "license": "MIT",
+  "license": "Apache Licence 2.0",
   "dependencies": {
     "koa": "^1.1.2",
     "nodedm": "^0.0.3"
   },
   "devDependencies": {
-    "tsd": "^0.6.5",
-    "typescript": "^1.6.2",
-    "webpack": "^1.12.5",
     "chai": "^3.4.0",
     "chai-as-promised": "^5.1.0",
-    "mocha": "^2.3.3"
+    "mocha": "^2.3.3",
+    "tsd": "^0.6.5",
+    "typescript": "next"
   }
 }

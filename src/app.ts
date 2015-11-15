@@ -11,9 +11,7 @@ app.use(function *(next){
 
 // response
 app.use(function *(){
-  var _this = this;
-  dm.ls().then((r) => console.log(r));
-  _this.body = 'hello';
+  this.body = yield dm.inspect('vbox0')
 });
 
 app.listen(3000);
