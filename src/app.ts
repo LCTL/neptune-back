@@ -1,14 +1,14 @@
 import * as errorHandler from './error_handler';
 import * as machine from './machine';
 
-var r = require('koa-route');
+var router = require('koa-trie-router');
 var bodyParser = require('koa-bodyparser');
 var koa = require('koa');
 var app = koa();
 
 app.use(errorHandler.handle);
 app.use(bodyParser());
-app.use(require('koa-trie-router')(app));
+app.use(router(app));
 
 app.route('/machines')
   .get(machine.list)
