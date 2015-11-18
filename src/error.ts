@@ -1,4 +1,4 @@
-export function * handle(next) {
+export function * handler(next) {
   try {
     yield next;
   } catch (err) {

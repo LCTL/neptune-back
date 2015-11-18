@@ -15,7 +15,7 @@
   ],
   "files": [
     "./src/app.ts",
-    "./src/error_handler.ts",
+    "./src/error.ts",
     "./src/machine.ts",
     "./typings/tsd.d.ts"
   ]

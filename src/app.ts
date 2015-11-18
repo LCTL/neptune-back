@@ -1,4 +1,4 @@
-import * as errorHandler from './error_handler';
+import * as error from './error';
 import * as machine from './machine';
 
 var router = require('koa-trie-router');
@@ -7,7 +7,7 @@ var koa = require('koa');
 
 export var app = koa();
 
-app.use(errorHandler.handle);
+app.use(error.handler);
 app.use(bodyParser());
 app.use(router(app));
 
