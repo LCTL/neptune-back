@@ -15,7 +15,7 @@
     "maanger"
   ],
   "author": "Lawrence Cheung",
-  "license": "Apache Licence 2.0",
+  "license": "Apache-2.0",
   "dependencies": {
     "koa": "^1.1.2",
     "koa-bodyparser": "^2.0.1",
