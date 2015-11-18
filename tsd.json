@@ -6,7 +6,28 @@
   "bundle": "typings/tsd.d.ts",
   "installed": {
     "node/node.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
+    },
+    "mocha/mocha.d.ts": {
       "commit": "421d6610bdb09e1015b71f5991d7a68d079eca21"
+    },
+    "chai/chai.d.ts": {
+      "commit": "421d6610bdb09e1015b71f5991d7a68d079eca21"
+    },
+    "chai-as-promised/chai-as-promised.d.ts": {
+      "commit": "421d6610bdb09e1015b71f5991d7a68d079eca21"
+    },
+    "assertion-error/assertion-error.d.ts": {
+      "commit": "421d6610bdb09e1015b71f5991d7a68d079eca21"
+    },
+    "promises-a-plus/promises-a-plus.d.ts": {
+      "commit": "421d6610bdb09e1015b71f5991d7a68d079eca21"
+    },
+    "supertest/supertest.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
+    },
+    "superagent/superagent.d.ts": {
+      "commit": "fc341765ebbb04b7109981a25dced01f488f4d94"
     }
   }
 }

@@ -8,7 +8,7 @@
     "build": "npm run setup && node node_modules/typescript/bin/tsc",
     "babel-node": "node node_modules/babel-cli/bin/babel-node dist/app.js",
     "dev": "node node_modules/nodemon/bin/nodemon --watch ./dist --exec npm run babel-node",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node node_modules/babel-cli/bin/babel-node node_modules/mocha/bin/mocha --timeout 3000000 dist/test/*.js"
   },
   "keywords": [
     "docker",
@@ -20,15 +20,18 @@
     "koa": "^1.1.2",
     "koa-bodyparser": "^2.0.1",
     "koa-trie-router": "^1.0.10",
-    "nodedm": "^0.0.3"
+    "nodedm": "^0.1.1"
   },
   "devDependencies": {
     "babel": "^6.1.18",
     "babel-cli": "^6.1.18",
     "chai": "^3.4.0",
     "chai-as-promised": "^5.1.0",
+    "co-mocha": "^1.1.2",
+    "co-supertest": "0.0.10",
     "mocha": "^2.3.3",
     "nodemon": "^1.8.1",
+    "supertest": "^1.1.0",
     "tsd": "^0.6.5",
     "typescript": "next"
   }

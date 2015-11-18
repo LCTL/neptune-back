@@ -4,7 +4,8 @@ import * as machine from './machine';
 var router = require('koa-trie-router');
 var bodyParser = require('koa-bodyparser');
 var koa = require('koa');
-var app = koa();
+
+export var app = koa();
 
 app.use(errorHandler.handle);
 app.use(bodyParser());

@@ -9,32 +9,28 @@ export function * inspect() {
 }
 
 export function * create() {
-
   var name: string = this.params.name;
   var options = this.request.body;
-  var driverName
-  var driverOptions
   var driver: Driver;
+  var swarm: Swarm;
 
   this.assert(options, 400, 'Please provide options');
-  this.assert(options.driverName, 400, 'options.driverName not found');
-  this.assert(options.driverOptions, 400, 'options.driverOptions not found');
+  this.assert(options.driver, 400, 'options.drive not found');
 
   if (!name) {
     name = Date.now().toString();
   }
 
-  driverName = options.driverName;
-  driverOptions = options.driverOptions;
-  driver = new Driver(driverName, driverOptions);
+  driver = options.driver;
+  swarm = options.swarm;
 
-  yield dm.create(name, driver);
+  yield dm.create(name, driver, swarm);
+
   this.body = yield dm.inspect(name);
-
 }
 
-export function * remove(name: string) {
-  yield dm.remove(name);
+export function * remove() {
+  yield dm.rm(this.params.name);
   this.body = {
     value: true
   }
