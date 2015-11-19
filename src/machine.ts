@@ -1,5 +1,13 @@
 import {dm, Driver, Swarm} from 'nodedm';
 
+export function * machineExistMiddleware(next) {
+  if (this.params.name) {
+    var names: string[] = yield dm.ls(true);
+    this.assert(names.indexOf(this.params.name) > -1, 404, 'Machine not found');
+  }
+  yield next
+}
+
 export function * list() {
   this.body = yield dm.ls();
 }

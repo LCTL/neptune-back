@@ -16,8 +16,8 @@ app.route('/machines')
   .post(machine.create);
 
 app.route('/machines/:name')
-  .get(machine.inspect)
+  .get(machine.machineExistMiddleware, machine.inspect)
   .post(machine.create)
-  .delete(machine.remove);
+  .delete(machine.machineExistMiddleware, machine.remove);
 
 app.listen(3000);
