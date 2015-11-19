@@ -1,5 +1,9 @@
 import {dm, Driver, Swarm} from 'nodedm';
 
+var successResult = {
+  value: true
+}
+
 export function * machineExistMiddleware(next) {
   if (this.params.name) {
     var names: string[] = yield dm.ls(true);
@@ -39,7 +43,39 @@ export function * create() {
 
 export function * remove() {
   yield dm.rm(this.params.name);
+  this.body = successResult
+}
+
+export function * ip() {
+  var ip = yield dm.ip(this.params.name);
   this.body = {
-    value: true
+    value: ip
   }
+}
+
+export function * kill() {
+  yield dm.kill(this.params.name);
+  this.body = successResult;
+}
+
+export function * restart() {
+  yield dm.restart(this.params.name);
+  this.body = successResult
+}
+
+export function * start() {
+  yield dm.start(this.params.name);
+  this.body = successResult
+}
+
+export function * status() {
+  var status = yield dm.status(this.params.name);
+  this.body = {
+    value: status
+  }
+}
+
+export function * stop() {
+  yield dm.stop(this.params.name);
+  this.body = successResult
 }

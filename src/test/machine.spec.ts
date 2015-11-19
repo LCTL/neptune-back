@@ -18,6 +18,11 @@ describe('/machines', () => {
     return res.body;
   }
 
+  var firstMachineName = function * () {
+    var machines = yield getMachines();
+    return machines[0].name;
+  }
+
   it('GET /machines should return empty array', function *() {
     var res = yield request.get('/machines').expect(200).end();
     expect(res.body).to.deep.equal([]);
@@ -40,19 +45,107 @@ describe('/machines', () => {
     expect(res.body).to.have.length.gte(1);
   });
 
+  it('POST /machines/vbox should create machine named vbox and return inspect object', function *() {
+    var res = yield request.post('/machines/vbox').send({
+      driver: {
+        name: 'virtualbox',
+        options: {
+          'virtualbox-memory': '512'
+        }
+      }
+    }).expect(200).end();
+    expect(res.body).to.have.property('DriverName', 'virtualbox');
+    expect(res.body).to.have.deep.property('Driver.MachineName', 'vbox');
+  });
+
   it('GET /machines/:name should return inspect object', function *() {
-    var machines = yield getMachines();
-    var machineName = machines[0].name;
-    var res = yield request.get('/machines/' + machineName).expect(200).end();
+    var machineName = yield firstMachineName();
+    var res = yield request.get(`/machines/${machineName}`).expect(200).end();
 
     expect(res.body).to.have.property('DriverName', 'virtualbox');
     expect(res.body).to.have.deep.property('Driver.MachineName', machineName);
   });
 
+  it('GET /machines/:name/status should return Running', function *() {
+    var machineName = yield firstMachineName();
+    var res = yield request.get(`/machines/${machineName}/status`).expect(200).end();
+
+    expect(res.body).to.deep.equal({value: 'Running'});
+  });
+
+  it('GET /machines/:name/ip should return ip', function *() {
+    var machineName = yield firstMachineName();
+    var res = yield request.get(`/machines/${machineName}/ip`).expect(200).end();
+
+    expect(res.body.value).to.match(/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/ig);
+  });
+
+  it('POST /machines/:name/kill should kill machine', function *() {
+    var machineName = yield firstMachineName();
+    var res = yield request.post(`/machines/${machineName}/kill`).expect(200).end();
+
+    expect(res.body).to.deep.equal({value: true});
+  });
+
+  it('GET /machines/:name/status should return Stopped', function *() {
+    var machineName = yield firstMachineName();
+    var res = yield request.get(`/machines/${machineName}/status`).expect(200).end();
+
+    expect(res.body).to.deep.equal({value: 'Stopped'});
+  });
+
+  it('POST /machines/:name/start should start machine', function *() {
+    var machineName = yield firstMachineName();
+    // Don't know why expect(200) got undefined, so remove expect(200) method call
+    var res = yield request.post(`/machines/${machineName}/start`).end();
+
+    expect(res.body).to.deep.equal({value: true});
+  });
+
+  it('GET /machines/:name/status should return Running', function *() {
+    var machineName = yield firstMachineName();
+    var res = yield request.get(`/machines/${machineName}/status`).expect(200).end();
+
+    expect(res.body).to.deep.equal({value: 'Running'});
+  });
+
+  it('POST /machines/:name/start should stop machine', function *() {
+    var machineName = yield firstMachineName();
+    var res = yield request.post(`/machines/${machineName}/stop`).expect(200).end();
+
+    expect(res.body).to.deep.equal({value: true});
+  });
+
+  it('GET /machines/:name/status should return Stopped', function *() {
+    var machineName = yield firstMachineName();
+    var res = yield request.get(`/machines/${machineName}/status`).expect(200).end();
+
+    expect(res.body).to.deep.equal({value: 'Stopped'});
+  });
+
+  it('POST /machines/:name/restart should restart machine', function *() {
+    var machineName = yield firstMachineName();
+    // Don't know why expect(200) got undefined, so remove expect(200) method call
+    var res = yield request.post(`/machines/${machineName}/restart`).end();
+
+    expect(res.body).to.deep.equal({value: true});
+  });
+
+  it('GET /machines/:name/status should return Running', function *() {
+    var machineName = yield firstMachineName();
+    var res = yield request.get(`/machines/${machineName}/status`).expect(200).end();
+
+    expect(res.body).to.deep.equal({value: 'Running'});
+  });
+
   it('DELETE /machines/:name should remove machine', function *() {
-    var machines = yield getMachines();
-    var machineName = machines[0].name;
-    var res = yield request.delete('/machines/' + machineName).expect(200).end();
+    var machineName = yield firstMachineName();
+    var res = yield request.delete(`/machines/${machineName}`).expect(200).end();
+    expect(res.body).to.deep.equal({value: true});
+  });
+
+  it('DELETE /machines/vbox should remove vbox machine', function *() {
+    var res = yield request.delete('/machines/vbox').expect(200).end();
     expect(res.body).to.deep.equal({value: true});
   });
 

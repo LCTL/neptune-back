@@ -4,6 +4,7 @@ import * as machine from './machine';
 var router = require('koa-trie-router');
 var bodyParser = require('koa-bodyparser');
 var koa = require('koa');
+var mem = machine.machineExistMiddleware;
 
 export var app = koa();
 
@@ -16,8 +17,15 @@ app.route('/machines')
   .post(machine.create);
 
 app.route('/machines/:name')
-  .get(machine.machineExistMiddleware, machine.inspect)
+  .get(mem, machine.inspect)
   .post(machine.create)
-  .delete(machine.machineExistMiddleware, machine.remove);
+  .delete(mem, machine.remove);
+
+app.get('/machines/:name/ip', mem, machine.ip);
+app.post('/machines/:name/kill', mem, machine.kill);
+app.post('/machines/:name/restart', mem, machine.restart);
+app.post('/machines/:name/start', mem, machine.start);
+app.get('/machines/:name/status', mem, machine.status);
+app.post('/machines/:name/stop', mem, machine.stop);
 
 app.listen(3000);
