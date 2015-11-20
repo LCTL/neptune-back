@@ -17,10 +17,13 @@
   "author": "Lawrence Cheung",
   "license": "Apache-2.0",
   "dependencies": {
+    "dockerode": "^2.2.3",
+    "es6-promisify": "^3.0.0",
     "koa": "^1.1.2",
     "koa-bodyparser": "^2.0.1",
     "koa-trie-router": "^1.0.10",
-    "nodedm": "^0.1.1"
+    "nodedm": "^0.1.1",
+    "yargs": "^3.30.0"
   },
   "devDependencies": {
     "babel": "^6.1.18",

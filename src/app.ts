@@ -1,10 +1,15 @@
 import * as error from './error';
 import * as machine from './machine';
+import * as docker from './docker';
+import * as container from './container';
+import * as image from './image';
 
 var router = require('koa-trie-router');
 var bodyParser = require('koa-bodyparser');
 var koa = require('koa');
 var mem = machine.machineExistMiddleware;
+var cdm = docker.connectDockerMiddleware;
+var ccm = container.connectContainerMiddleware;
 
 export var app = koa();
 
@@ -27,5 +32,12 @@ app.post('/machines/:name/restart', mem, machine.restart);
 app.post('/machines/:name/start', mem, machine.start);
 app.get('/machines/:name/status', mem, machine.status);
 app.post('/machines/:name/stop', mem, machine.stop);
+
+app.get('/machines/:name/containers', mem, cdm, container.ps);
+app.post('/machines/:name/containers', mem, cdm, container.create);
+app.get('/machines/:name/containers/:cid', mem, cdm, ccm, container.inspect);
+
+app.get('/machines/:name/images', mem, cdm, image.list);
+app.post('/machines/:name/images', mem, cdm, image.create);
 
 app.listen(3000);

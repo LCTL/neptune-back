@@ -15,8 +15,17 @@
   ],
   "files": [
     "./src/app.ts",
+    "./src/container.ts",
+    "./src/docker.ts",
     "./src/error.ts",
+    "./src/image.ts",
     "./src/machine.ts",
+    "./src/test/container.spce.ts",
+    "./src/test/image.spec.ts",
+    "./src/test/machine.spec.ts",
     "./typings/tsd.d.ts"
-  ]
+  ],
+  "atom": {
+    "rewriteTsconfig": true
+  }
 }
