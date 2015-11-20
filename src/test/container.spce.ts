@@ -38,7 +38,6 @@ describe('/machines/:name/containers', () => {
     var res = yield request.post(`/machines/${machineName}/images`).send({
       fromImage: 'busybox'
     }).expect(200).end();
-    console.log(res.body);
     expect(res.body).to.match(/[\w]+/);
   });
 
