@@ -3,12 +3,19 @@
   "version": "0.0.1",
   "description": "Docker Machine Manager (Backend)",
   "main": "/dist/app.js",
+  "config": {
+    "test_timeout": "3000000"
+  },
   "scripts": {
-    "setup": "npm install && node node_modules/tsd/build/cli.js install && node node_modules/tsd/build/cli.js link",
-    "build": "npm run setup && node node_modules/typescript/bin/tsc",
-    "start": "node node_modules/babel-cli/bin/babel-node dist/app.js",
-    "dev": "node node_modules/nodemon/bin/nodemon --watch ./dist --exec npm start",
-    "test": "node node_modules/babel-cli/bin/babel-node node_modules/mocha/bin/mocha --timeout 3000000 dist/test/*.js"
+    "setup": "npm install && tsd install && tsd link",
+    "build": "npm run setup && tsc",
+    "start": "babel-node dist/app.js",
+    "dev": "npm run build && nodemon --watch ./dist --exec npm start",
+    "test": "npm run test:run dist/test/*.js",
+    "test:run": "mocha --timeout $npm_package_config_test_timeout",
+    "test:machine": "npm run test:run dist/test/machine.spec.js",
+    "test:container": "npm run test:run dist/test/container.spec.js",
+    "test:image": "npm run test:run dist/test/image.spec.js"
   },
   "keywords": [
     "docker",
