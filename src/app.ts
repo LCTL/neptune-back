@@ -10,6 +10,7 @@ var koa = require('koa');
 var mem = machine.machineExistMiddleware;
 var cdm = docker.connectDockerMiddleware;
 var ccm = container.connectContainerMiddleware;
+var cim = image.connectImageMiddleware;
 
 export var app = koa();
 
@@ -43,5 +44,6 @@ app.post('/machines/:name/containers/:cid/restart', mem, cdm, ccm, container.res
 
 app.get('/machines/:name/images', mem, cdm, image.list);
 app.post('/machines/:name/images', mem, cdm, image.create);
+app.delete('/machines/:name/images/:iname', mem, cdm, cim, image.remove);
 
 app.listen(3000);

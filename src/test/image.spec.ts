@@ -10,6 +10,7 @@ var request = supertest.agent(app.listen())
 describe('/machines/:name/images', () => {
 
   var machineName = 'images-test';
+  var imageName = 'redis:2.6';
 
   before(`Start machine: ${machineName}`, function *() {
     var res = yield request.post(`/machines/${machineName}`).send({
@@ -34,14 +35,26 @@ describe('/machines/:name/images', () => {
 
   it(`POST /machines/${machineName}/images should pull busybox images`, function *() {
     var res = yield request.post(`/machines/${machineName}/images`).send({
-      fromImage: 'busybox'
+      fromImage: imageName
     }).expect(200).end();
     expect(res.body).to.match(/[\w]+/);
   });
 
-  it(`GET /machines/${machineName}/images should return array with more then 1 image`, function *() {
+  it(`GET /machines/${machineName}/images should return empty array with 1 image`, function *() {
     var res = yield request.get(`/machines/${machineName}/images`).expect(200).end();
-    expect(res.body).to.have.length.gte(1);
+    expect(res.body).to.have.length(1);
+  });
+
+  it(`DELETE /machines/${machineName}/images/${imageName} should remove image`, function *() {
+    var res = yield request.delete(`/machines/${machineName}/images/${imageName}`).expect(200).end();
+    expect(res.body).to.deep.include({
+      Untagged: imageName
+    });
+  });
+
+  it(`GET /machines/${machineName}/images should return empty array`, function *() {
+    var res = yield request.get(`/machines/${machineName}/images`).expect(200).end();
+    expect(res.body).to.deep.equal([]);
   });
 
 })
