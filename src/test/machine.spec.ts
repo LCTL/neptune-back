@@ -82,9 +82,7 @@ describe('/machines', () => {
 
   it('POST /machines/:name/kill should kill machine', function *() {
     var machineName = yield firstMachineName();
-    var res = yield request.post(`/machines/${machineName}/kill`).expect(200).end();
-
-    expect(res.body).to.deep.equal({value: true});
+    yield request.post(`/machines/${machineName}/kill`).expect(204).end();
   });
 
   it('GET /machines/:name/status should return Stopped', function *() {
@@ -96,10 +94,7 @@ describe('/machines', () => {
 
   it('POST /machines/:name/start should start machine', function *() {
     var machineName = yield firstMachineName();
-    // Don't know why expect(200) got undefined, so remove expect(200) method call
-    var res = yield request.post(`/machines/${machineName}/start`).end();
-
-    expect(res.body).to.deep.equal({value: true});
+    yield request.post(`/machines/${machineName}/start`).expect(204).end();
   });
 
   it('GET /machines/:name/status should return Running', function *() {
@@ -111,9 +106,7 @@ describe('/machines', () => {
 
   it('POST /machines/:name/start should stop machine', function *() {
     var machineName = yield firstMachineName();
-    var res = yield request.post(`/machines/${machineName}/stop`).expect(200).end();
-
-    expect(res.body).to.deep.equal({value: true});
+    yield request.post(`/machines/${machineName}/stop`).expect(204).end();
   });
 
   it('GET /machines/:name/status should return Stopped', function *() {
@@ -125,10 +118,7 @@ describe('/machines', () => {
 
   it('POST /machines/:name/restart should restart machine', function *() {
     var machineName = yield firstMachineName();
-    // Don't know why expect(200) got undefined, so remove expect(200) method call
-    var res = yield request.post(`/machines/${machineName}/restart`).end();
-
-    expect(res.body).to.deep.equal({value: true});
+    yield request.post(`/machines/${machineName}/restart`).expect(204).end();
   });
 
   it('GET /machines/:name/status should return Running', function *() {
@@ -140,13 +130,11 @@ describe('/machines', () => {
 
   it('DELETE /machines/:name should remove machine', function *() {
     var machineName = yield firstMachineName();
-    var res = yield request.delete(`/machines/${machineName}`).expect(200).end();
-    expect(res.body).to.deep.equal({value: true});
+    yield request.delete(`/machines/${machineName}`).expect(204).end();
   });
 
   it('DELETE /machines/vbox should remove vbox machine', function *() {
-    var res = yield request.delete('/machines/vbox').expect(200).end();
-    expect(res.body).to.deep.equal({value: true});
+    yield request.delete('/machines/vbox').expect(204).end();
   });
 
 });

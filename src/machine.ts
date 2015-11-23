@@ -1,9 +1,5 @@
 import {dm, Driver, Swarm} from 'nodedm';
 
-var successResult = {
-  value: true
-}
-
 export function * machineExistMiddleware(next) {
   if (this.params.name) {
     var names: string[] = yield dm.ls(true);
@@ -43,7 +39,7 @@ export function * create() {
 
 export function * remove() {
   yield dm.rm(this.params.name);
-  this.body = successResult
+  this.status = 204;
 }
 
 export function * ip() {
@@ -55,17 +51,17 @@ export function * ip() {
 
 export function * kill() {
   yield dm.kill(this.params.name);
-  this.body = successResult;
+  this.status = 204;
 }
 
 export function * restart() {
   yield dm.restart(this.params.name);
-  this.body = successResult
+  this.status = 204;
 }
 
 export function * start() {
   yield dm.start(this.params.name);
-  this.body = successResult
+  this.status = 204;
 }
 
 export function * status() {
@@ -77,5 +73,5 @@ export function * status() {
 
 export function * stop() {
   yield dm.stop(this.params.name);
-  this.body = successResult
+  this.status = 204;
 }
