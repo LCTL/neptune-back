@@ -45,3 +45,13 @@ export function * stop() {
   yield postAction.call(this, 'stop', this.request.body);
   this.status = 204;
 }
+
+export function * kill() {
+  yield postAction.call(this, 'kill', this.request.body);
+  this.status = 204;
+}
+
+export function * restart() {
+  yield postAction.call(this, 'restart', this.request.body);
+  this.status = 204;
+}

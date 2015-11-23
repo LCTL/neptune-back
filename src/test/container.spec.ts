@@ -12,7 +12,7 @@ describe('/machines/:name/containers', () => {
   var machineName = 'container-test';
   var containerId;
 
-  before(function *() {
+  before(`Start machine: ${machineName}`, function *() {
     var res = yield request.post(`/machines/${machineName}`).send({
       driver: {
         name: 'virtualbox',
@@ -23,9 +23,9 @@ describe('/machines/:name/containers', () => {
     }).expect(200).end();
   });
 
-  after(function *() {
-    yield request.post(`/machines/${machineName}/stop`).end();
-    yield request.delete(`/machines/${machineName}`).expect(200).end();
+  after(`Stop and remove machine: ${machineName}`, function *() {
+    yield request.post(`/machines/${machineName}/stop`).expect(204).end();
+    yield request.delete(`/machines/${machineName}`).expect(204).end();
   });
 
   it(`GET /machines/${machineName}/containers should return empty array`, function *() {
@@ -75,6 +75,24 @@ describe('/machines/:name/containers', () => {
 
   it(`POST /machines/${machineName}/containers/:cid/stop should stop container`, function *() {
     yield request.post(`/machines/${machineName}/containers/${containerId}/stop`).expect(204).end();
+  });
+
+  it(`GET /machines/${machineName}/containers/:cid should return inspect object and State.Running is false`, function *() {
+    var res = yield request.get(`/machines/${machineName}/containers/${containerId}`).expect(200).end();
+    expect(res.body.State.Running).to.be.false;
+  });
+
+  it(`POST /machines/${machineName}/containers/:cid/restart should restart container`, function *() {
+    yield request.post(`/machines/${machineName}/containers/${containerId}/restart`).expect(204).end();
+  });
+
+  it(`GET /machines/${machineName}/containers/:cid should return inspect object and State.Restarting is true`, function *() {
+    var res = yield request.get(`/machines/${machineName}/containers/${containerId}`).expect(200).end();
+    expect(res.body.State.Running).to.be.true;
+  });
+
+  it(`POST /machines/${machineName}/containers/:cid/kill should kill container`, function *() {
+    yield request.post(`/machines/${machineName}/containers/${containerId}/kill`).expect(204).end();
   });
 
   it(`GET /machines/${machineName}/containers/:cid should return inspect object and State.Running is false`, function *() {
