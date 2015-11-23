@@ -11,7 +11,7 @@ describe('/machines/:name/images', () => {
 
   var machineName = 'images-test';
 
-  before(function *() {
+  before(`Start machine: ${machineName}`, function *() {
     var res = yield request.post(`/machines/${machineName}`).send({
       driver: {
         name: 'virtualbox',
@@ -22,9 +22,9 @@ describe('/machines/:name/images', () => {
     }).expect(200).end();
   });
 
-  after(function *() {
-    yield request.post(`/machines/${machineName}/stop`).end();
-    yield request.delete(`/machines/${machineName}`).expect(200).end();
+  after(`Stop and remove machine: ${machineName}`, function *() {
+    yield request.post(`/machines/${machineName}/stop`).expect(204).end();
+    yield request.delete(`/machines/${machineName}`).expect(204).end();
   });
 
   it(`GET /machines/${machineName}/images should return empty array`, function *() {
