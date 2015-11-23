@@ -24,6 +24,10 @@ export function * create() {
   this.body = yield promisify(this.docker.createImage.bind(this.docker))(this.request.body);
 }
 
+export function * inspect() {
+  this.body = this.imageInspect
+}
+
 export function * remove() {
   this.body = yield promisify(this.image.remove.bind(this.image))(this.request.body);
 }

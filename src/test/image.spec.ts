@@ -45,6 +45,12 @@ describe('/machines/:name/images', () => {
     expect(res.body).to.have.length(1);
   });
 
+  it(`GET /machines/${machineName}/images/${imageName} should return inspect object`, function *() {
+    var res = yield request.get(`/machines/${machineName}/images/${imageName}`).expect(200).end();
+    expect(res.body).to.be.not.empty;
+    expect(res.body.RepoTags).to.be.include(imageName);
+  });
+
   it(`DELETE /machines/${machineName}/images/${imageName} should remove image`, function *() {
     var res = yield request.delete(`/machines/${machineName}/images/${imageName}`).expect(200).end();
     expect(res.body).to.deep.include({

@@ -44,6 +44,7 @@ app.post('/machines/:name/containers/:cid/restart', mem, cdm, ccm, container.res
 
 app.get('/machines/:name/images', mem, cdm, image.list);
 app.post('/machines/:name/images', mem, cdm, image.create);
+app.get('/machines/:name/images/:iname', mem, cdm, cim, image.inspect);
 app.delete('/machines/:name/images/:iname', mem, cdm, cim, image.remove);
 
 app.listen(3000);
