@@ -10,6 +10,7 @@ var request = supertest.agent(app.listen())
 describe('/machines/:name/containers', () => {
 
   var machineName = 'container-test';
+  var containerId;
 
   before(function *() {
     var res = yield request.post(`/machines/${machineName}`).send({
@@ -34,21 +35,21 @@ describe('/machines/:name/containers', () => {
     expect(res.body).to.deep.equal([]);
   });
 
-  it(`POST /machines/${machineName}/images should pull busybox images`, function *() {
+  it(`POST /machines/${machineName}/images should pull redis images`, function *() {
     var res = yield request.post(`/machines/${machineName}/images`).send({
-      fromImage: 'busybox'
+      fromImage: 'redis:2.6'
     }).expect(200).end();
     expect(res.body).to.match(/[\w]+/);
   });
 
   it(`POST /machines/${machineName}/containers should create container`, function *() {
     var res = yield request.post(`/machines/${machineName}/containers`).send({
-      name: 'busybox-test',
-      Image: 'busybox',
-      Cmd: ['echo', '1']
+      name: 'redis-test',
+      Image: 'redis:2.6'
     }).expect(200).end();
     expect(res.body).to.be.not.empty;
     expect(res.body.value).to.match(/[\w]+/);
+    containerId = res.body.value
   });
 
   it(`GET /machines/${machineName}/containers should return array with 1 container`, function *() {
@@ -56,6 +57,29 @@ describe('/machines/:name/containers', () => {
       all: true
     }).expect(200).end();
     expect(res.body).to.have.length(1);
+  });
+
+  it(`GET /machines/${machineName}/containers/:cid should return inspect object and State.Running is false`, function *() {
+    var res = yield request.get(`/machines/${machineName}/containers/${containerId}`).expect(200).end();
+    expect(res.body.State.Running).to.be.false;
+  });
+
+  it(`POST /machines/${machineName}/containers/:cid/start should start container`, function *() {
+    yield request.post(`/machines/${machineName}/containers/${containerId}/start`).expect(204).end();
+  });
+
+  it(`GET /machines/${machineName}/containers/:cid should return inspect object and State.Restarting is true`, function *() {
+    var res = yield request.get(`/machines/${machineName}/containers/${containerId}`).expect(200).end();
+    expect(res.body.State.Running).to.be.true;
+  });
+
+  it(`POST /machines/${machineName}/containers/:cid/stop should stop container`, function *() {
+    yield request.post(`/machines/${machineName}/containers/${containerId}/stop`).expect(204).end();
+  });
+
+  it(`GET /machines/${machineName}/containers/:cid should return inspect object and State.Running is false`, function *() {
+    var res = yield request.get(`/machines/${machineName}/containers/${containerId}`).expect(200).end();
+    expect(res.body.State.Running).to.be.false;
   });
 
 });

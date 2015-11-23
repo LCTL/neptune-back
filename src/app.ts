@@ -36,6 +36,8 @@ app.post('/machines/:name/stop', mem, machine.stop);
 app.get('/machines/:name/containers', mem, cdm, container.ps);
 app.post('/machines/:name/containers', mem, cdm, container.create);
 app.get('/machines/:name/containers/:cid', mem, cdm, ccm, container.inspect);
+app.post('/machines/:name/containers/:cid/start', mem, cdm, ccm, container.start);
+app.post('/machines/:name/containers/:cid/stop', mem, cdm, ccm, container.stop);
 
 app.get('/machines/:name/images', mem, cdm, image.list);
 app.post('/machines/:name/images', mem, cdm, image.create);

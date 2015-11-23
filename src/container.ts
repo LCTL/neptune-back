@@ -1,5 +1,9 @@
 const promisify = require('es6-promisify');
 
+function * postAction (name: string, opt: any) {
+  return yield promisify(this.container[name].bind(this.container))(opt);
+}
+
 export function * connectContainerMiddleware(next) {
   if (this.params.cid) {
     this.container = this.docker.getContainer(this.params.cid);
@@ -30,4 +34,14 @@ export function * create() {
 
 export function * inspect() {
   this.body = this.containerInspect;
+}
+
+export function * start() {
+  yield postAction.call(this, 'start', this.request.body);
+  this.status = 204;
+}
+
+export function * stop() {
+  yield postAction.call(this, 'stop', this.request.body);
+  this.status = 204;
 }
