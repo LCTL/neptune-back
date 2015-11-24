@@ -1,4 +1,8 @@
 const promisify = require('es6-promisify');
+const Docker = require('dockerode');
+
+const listImages = promisify(Docker.prototype.listImages);
+const createImage = promisify(Docker.prototype.createImage);
 
 export function * connectImageMiddleware(next) {
   if (this.params.iname) {
@@ -17,11 +21,11 @@ export function * connectImageMiddleware(next) {
 }
 
 export function * list() {
-  this.body = yield promisify(this.docker.listImages.bind(this.docker))(this.query);
+  this.body = yield listImages.call(this.docker, this.query);
 }
 
 export function * create() {
-  this.body = yield promisify(this.docker.createImage.bind(this.docker))(this.request.body);
+  this.body = yield createImage.call(this.docker, this.request.body);
 }
 
 export function * inspect() {
