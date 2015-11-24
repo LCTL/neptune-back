@@ -1,7 +1,11 @@
 const promisify = require('es6-promisify');
+const Docker = require('dockerode');
 
-function * postAction (name: string, opt: any) {
-  return yield promisify(this.container[name].bind(this.container))(opt);
+const listContainers = promisify(Docker.prototype.listContainers);
+const createContainer = promisify(Docker.prototype.createContainer);
+
+function * action (name: string) {
+  return yield promisify(this.container[name].bind(this.container))(this.request.body);
 }
 
 export function * connectContainerMiddleware(next) {
@@ -21,12 +25,12 @@ export function * connectContainerMiddleware(next) {
 }
 
 export function * ps() {
-  var containers = yield promisify(this.docker.listContainers.bind(this.docker))(this.query);
+  var containers = yield listContainers.call(this.docker, this.query);
   this.body = containers;
 }
 
 export function * create() {
-  var container = yield promisify(this.docker.createContainer.bind(this.docker))(this.request.body);
+  var container = yield createContainer.call(this.docker, this.request.body);
   this.body = {
     value: container.id
   };
@@ -37,21 +41,21 @@ export function * inspect() {
 }
 
 export function * start() {
-  yield postAction.call(this, 'start', this.request.body);
+  yield action.call(this, 'start');
   this.status = 204;
 }
 
 export function * stop() {
-  yield postAction.call(this, 'stop', this.request.body);
+  yield action.call(this, 'stop');
   this.status = 204;
 }
 
 export function * kill() {
-  yield postAction.call(this, 'kill', this.request.body);
+  yield action.call(this, 'kill');
   this.status = 204;
 }
 
 export function * restart() {
-  yield postAction.call(this, 'restart', this.request.body);
+  yield action.call(this, 'restart');
   this.status = 204;
 }
