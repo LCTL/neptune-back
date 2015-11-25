@@ -7,6 +7,7 @@ import * as image from './image';
 var router = require('koa-trie-router');
 var bodyParser = require('koa-bodyparser');
 var koa = require('koa');
+var cors = require('kcors');
 var mem = machine.machineExistMiddleware;
 var cdm = docker.connectDockerMiddleware;
 var ccm = container.connectContainerMiddleware;
@@ -15,6 +16,7 @@ var cim = image.connectImageMiddleware;
 export var app = koa();
 
 app.use(error.handler);
+app.use(cors());
 app.use(bodyParser());
 app.use(router(app));
 
