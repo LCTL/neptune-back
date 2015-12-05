@@ -7,6 +7,8 @@ const Docker = require('dockerode');
 const readFile: Function = promisify(fs.readFile);
 const regxpFetchIpPort: RegExp = /[\w]+:\/\/(.*):([0-9]+)/i;
 
+const containerInfo = promisify(Docker.prototype.info);
+
 function * connectDocker(): any {
   const config: string = yield dm.config(this.params.name);
   const argv = yargs.parse(config.split(' '));
@@ -28,4 +30,8 @@ function * connectDocker(): any {
 export function * connectDockerMiddleware(next) {
   this.docker = yield connectDocker.apply(this);
   yield next
+}
+
+export function * info() {
+  this.body = yield containerInfo.call(this.docker);
 }

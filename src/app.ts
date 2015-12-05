@@ -36,6 +36,8 @@ app.post('/machines/:name/start', mem, machine.start);
 app.get('/machines/:name/status', mem, machine.status);
 app.post('/machines/:name/stop', mem, machine.stop);
 
+app.get('/machines/:name/docker', mem, cdm, docker.info);
+
 app.get('/machines/:name/containers', mem, cdm, container.ps);
 app.post('/machines/:name/containers', mem, cdm, container.create);
 app.get('/machines/:name/containers/:cid', mem, cdm, ccm, container.inspect);

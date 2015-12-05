@@ -21,6 +21,7 @@
     "./src/image.ts",
     "./src/machine.ts",
     "./src/test/container.spec.ts",
+    "./src/test/docker.spec.ts",
     "./src/test/image.spec.ts",
     "./src/test/machine.spec.ts",
     "./typings/tsd.d.ts"
