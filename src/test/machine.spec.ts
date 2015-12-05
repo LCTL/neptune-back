@@ -30,12 +30,8 @@ describe('/machines', () => {
 
   it('POST /machines should create machine and return inspect object', function *() {
     var res = yield request.post('/machines').send({
-      driver: {
-        name: 'virtualbox',
-        options: {
-          'virtualbox-memory': '512'
-        }
-      }
+      'driver': 'virtualbox',
+      'virtualbox-memory': '512'
     }).expect(200).end();
     expect(res.body).to.have.property('DriverName', 'virtualbox');
   });
@@ -47,12 +43,8 @@ describe('/machines', () => {
 
   it('POST /machines/vbox should create machine named vbox and return inspect object', function *() {
     var res = yield request.post('/machines/vbox').send({
-      driver: {
-        name: 'virtualbox',
-        options: {
-          'virtualbox-memory': '512'
-        }
-      }
+      'driver': 'virtualbox',
+      'virtualbox-memory': '512'
     }).expect(200).end();
     expect(res.body).to.have.property('DriverName', 'virtualbox');
     expect(res.body).to.have.deep.property('Driver.MachineName', 'vbox');

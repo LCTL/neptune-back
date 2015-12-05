@@ -14,12 +14,8 @@ describe('/machines/:name/containers', () => {
 
   before(`Start machine: ${machineName}`, function *() {
     var res = yield request.post(`/machines/${machineName}`).send({
-      driver: {
-        name: 'virtualbox',
-        options: {
-          'virtualbox-memory': '512'
-        }
-      }
+      'driver': 'virtualbox',
+      'virtualbox-memory': '512'
     }).expect(200).end();
   });
 
