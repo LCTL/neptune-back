@@ -3,6 +3,7 @@ import * as machine from './machine';
 import * as docker from './docker';
 import * as container from './container';
 import * as image from './image';
+import * as hub from './hub';
 
 var router = require('koa-trie-router');
 var bodyParser = require('koa-bodyparser');
@@ -50,5 +51,7 @@ app.get('/machines/:name/images', mem, cdm, image.list);
 app.post('/machines/:name/images', mem, cdm, image.create);
 app.get('/machines/:name/images/:iname', mem, cdm, cim, image.inspect);
 app.delete('/machines/:name/images/:iname', mem, cdm, cim, image.remove);
+
+app.get('/machines/:name/hub/images', mem, cdm, hub.searchImages);
 
 app.listen(3000);
