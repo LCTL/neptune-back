@@ -4,6 +4,7 @@ import * as docker from './docker';
 import * as container from './container';
 import * as image from './image';
 import * as hub from './hub';
+import * as registry from './registry';
 
 var router = require('koa-trie-router');
 var bodyParser = require('koa-bodyparser');
@@ -20,6 +21,10 @@ app.use(error.handler);
 app.use(cors());
 app.use(bodyParser());
 app.use(router(app));
+
+for (let key in registry) {
+  app.use(registry[key]);
+}
 
 app.route('/machines')
   .get(machine.list)

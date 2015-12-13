@@ -21,11 +21,13 @@
     "./src/hub.ts",
     "./src/image.ts",
     "./src/machine.ts",
+    "./src/registry.ts",
     "./src/test/container.spec.ts",
     "./src/test/docker.spec.ts",
     "./src/test/hub.spec.ts",
     "./src/test/image.spec.ts",
     "./src/test/machine.spec.ts",
+    "./src/test/registry.spec.ts",
     "./typings/tsd.d.ts"
   ],
   "atom": {
