@@ -96,4 +96,15 @@ describe('/machines/:name/containers', () => {
     expect(res.body.State.Running).to.be.false;
   });
 
+  it(`DELETE /machines/${machineName}/containers/:cid/kill should remove container`, function *() {
+    yield request.delete(`/machines/${machineName}/containers/${containerId}`).expect(204).end();
+  });
+
+  it(`GET /machines/${machineName}/containers should return array with zero container`, function *() {
+    var res = yield request.get(`/machines/${machineName}/containers`).query({
+      all: true
+    }).expect(200).end();
+    expect(res.body).to.have.length(0);
+  });
+
 });

@@ -59,3 +59,8 @@ export function * restart() {
   yield action.call(this, 'restart');
   this.status = 204;
 }
+
+export function * remove() {
+  yield action.call(this, 'remove');
+  this.status = 204;
+}
