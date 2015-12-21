@@ -40,6 +40,11 @@ export function * inspect() {
   this.body = this.containerInspect;
 }
 
+export function * logs() {
+  this.type = 'text/plain; charset=utf-8';
+  this.body = yield promisify(this.container.logs.bind(this.container))(this.query);
+}
+
 export function * start() {
   yield action.call(this, 'start');
   this.status = 204;

@@ -48,6 +48,7 @@ app.get('/machines/:name/containers', mem, cdm, container.ps);
 app.post('/machines/:name/containers', mem, cdm, container.create);
 app.get('/machines/:name/containers/:cid', mem, cdm, ccm, container.inspect);
 app.delete('/machines/:name/containers/:cid', mem, cdm, ccm, container.remove);
+app.get('/machines/:name/containers/:cid/logs', mem, cdm, ccm, container.logs);
 app.post('/machines/:name/containers/:cid/start', mem, cdm, ccm, container.start);
 app.post('/machines/:name/containers/:cid/stop', mem, cdm, ccm, container.stop);
 app.post('/machines/:name/containers/:cid/kill', mem, cdm, ccm, container.kill);

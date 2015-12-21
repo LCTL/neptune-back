@@ -96,6 +96,13 @@ describe('/machines/:name/containers', () => {
     expect(res.body.State.Running).to.be.false;
   });
 
+  it(`GET /machines/${machineName}/containers/:cid/logs should return logs text`, function *() {
+    var res = yield request.get(`/machines/${machineName}/containers/${containerId}/logs`).query({
+      stdout: true
+    }).expect(200).end();
+    expect(res.text).to.be.match(/.*Redis.*/i);
+  });
+
   it(`DELETE /machines/${machineName}/containers/:cid/kill should remove container`, function *() {
     yield request.delete(`/machines/${machineName}/containers/${containerId}`).expect(204).end();
   });
