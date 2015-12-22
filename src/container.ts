@@ -65,6 +65,16 @@ export function * restart() {
   this.status = 204;
 }
 
+export function * pause() {
+  yield action.call(this, 'pause');
+  this.status = 204;
+}
+
+export function * unpause() {
+  yield action.call(this, 'unpause');
+  this.status = 204;
+}
+
 export function * remove() {
   yield action.call(this, 'remove');
   this.status = 204;

@@ -87,6 +87,24 @@ describe('/machines/:name/containers', () => {
     expect(res.body.State.Running).to.be.true;
   });
 
+  it(`POST /machines/${machineName}/containers/:cid/pause should pause container`, function *() {
+    yield request.post(`/machines/${machineName}/containers/${containerId}/pause`).expect(204).end();
+  });
+
+  it(`GET /machines/${machineName}/containers/:cid should return inspect object and State.Restarting is true`, function *() {
+    var res = yield request.get(`/machines/${machineName}/containers/${containerId}`).expect(200).end();
+    expect(res.body.State.Paused).to.be.true;
+  });
+
+  it(`POST /machines/${machineName}/containers/:cid/unpause should unpause container`, function *() {
+    yield request.post(`/machines/${machineName}/containers/${containerId}/unpause`).expect(204).end();
+  });
+
+  it(`GET /machines/${machineName}/containers/:cid should return inspect object and State.Restarting is true`, function *() {
+    var res = yield request.get(`/machines/${machineName}/containers/${containerId}`).expect(200).end();
+    expect(res.body.State.Paused).to.be.false;
+  });
+
   it(`POST /machines/${machineName}/containers/:cid/kill should kill container`, function *() {
     yield request.post(`/machines/${machineName}/containers/${containerId}/kill`).expect(204).end();
   });

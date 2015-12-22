@@ -53,6 +53,8 @@ app.post('/machines/:name/containers/:cid/start', mem, cdm, ccm, container.start
 app.post('/machines/:name/containers/:cid/stop', mem, cdm, ccm, container.stop);
 app.post('/machines/:name/containers/:cid/kill', mem, cdm, ccm, container.kill);
 app.post('/machines/:name/containers/:cid/restart', mem, cdm, ccm, container.restart);
+app.post('/machines/:name/containers/:cid/pause', mem, cdm, ccm, container.pause);
+app.post('/machines/:name/containers/:cid/unpause', mem, cdm, ccm, container.unpause);
 
 app.get('/machines/:name/images', mem, cdm, image.list);
 app.post('/machines/:name/images', mem, cdm, image.create);
