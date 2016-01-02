@@ -27,8 +27,17 @@ function * connectDocker(): any {
   return new Docker(opt);
 }
 
+function * connectLocalDocker(): any {
+  return new Docker();
+}
+
 export function * connectDockerMiddleware(next) {
   this.docker = yield connectDocker.apply(this);
+  yield next
+}
+
+export function * connectLocalDockerMiddleware(next) {
+  this.docker = yield connectLocalDocker.apply(this);
   yield next
 }
 

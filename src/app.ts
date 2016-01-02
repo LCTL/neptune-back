@@ -12,6 +12,7 @@ var koa = require('koa');
 var cors = require('kcors');
 var mem = machine.machineExistMiddleware;
 var cdm = docker.connectDockerMiddleware;
+var cldm = docker.connectLocalDockerMiddleware;
 var ccm = container.connectContainerMiddleware;
 var cim = image.connectImageMiddleware;
 
@@ -62,5 +63,28 @@ app.get('/machines/:name/images/:iname', mem, cdm, cim, image.inspect);
 app.delete('/machines/:name/images/:iname', mem, cdm, cim, image.remove);
 
 app.get('/machines/:name/hub/images', mem, cdm, hub.searchImages);
+
+// local docker
+app.route('/local/containers')
+  .get(cldm, container.ps)
+  .post(cldm, container.create);
+
+app.route('/local/containers/:cid')
+  .get(cldm, ccm, container.inspect)
+  .delete(cldm, ccm, container.remove);
+
+app.get('/local/containers/:cid/logs', cldm, ccm, container.logs);
+app.post('/local/containers/:cid/start', cldm, ccm, container.start);
+app.post('/local/containers/:cid/stop', cldm, ccm, container.stop);
+app.post('/local/containers/:cid/kill', cldm, ccm, container.kill);
+app.post('/local/containers/:cid/restart', cldm, ccm, container.restart);
+app.post('/local/containers/:cid/pause', cldm, ccm, container.pause);
+app.post('/local/containers/:cid/unpause', cldm, ccm, container.unpause);
+
+app.route('/local/images')
+  .get(cldm, image.list)
+  .post(cldm, image.create);
+app.get('/local/images/:iname', cldm, cim, image.inspect);
+app.delete('/local/images/:iname', cldm, cim, image.remove);
 
 app.listen(3000);

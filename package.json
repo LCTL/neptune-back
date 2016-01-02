@@ -18,7 +18,9 @@
     "test:container": "npm run test:run dist/test/container.spec.js",
     "test:image": "npm run test:run dist/test/image.spec.js",
     "test:hub": "npm run test:run dist/test/hub.spec.js",
-    "test:registry": "npm run test:run dist/test/registry.spec.js"
+    "test:registry": "npm run test:run dist/test/registry.spec.js",
+    "test:local-container": "npm run test:run dist/test/local-container.spec.js",
+    "test:local-image": "npm run test:run dist/test/local-image.spec.js"
   },
   "keywords": [
     "docker",
