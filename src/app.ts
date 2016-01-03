@@ -65,6 +65,8 @@ app.delete('/machines/:name/images/:iname', mem, cdm, cim, image.remove);
 app.get('/machines/:name/hub/images', mem, cdm, hub.searchImages);
 
 // local docker
+app.get('/local/docker', cldm, docker.info);
+
 app.route('/local/containers')
   .get(cldm, container.ps)
   .post(cldm, container.create);

@@ -27,6 +27,7 @@
     "./src/test/hub.spec.ts",
     "./src/test/image.spec.ts",
     "./src/test/local-container.spec.ts",
+    "./src/test/local-docker.spec.ts",
     "./src/test/local-image.spec.ts",
     "./src/test/machine.spec.ts",
     "./src/test/registry.spec.ts",
