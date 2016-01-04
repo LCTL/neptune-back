@@ -1,3 +1,4 @@
+import * as yargs from 'yargs';
 import * as error from './error';
 import * as machine from './machine';
 import * as docker from './docker';
@@ -6,6 +7,7 @@ import * as image from './image';
 import * as hub from './hub';
 import * as registry from './registry';
 
+const pkg = require('../package.json');
 var router = require('koa-trie-router');
 var bodyParser = require('koa-bodyparser');
 var koa = require('koa');
@@ -15,6 +17,9 @@ var cdm = docker.connectDockerMiddleware;
 var cldm = docker.connectLocalDockerMiddleware;
 var ccm = container.connectContainerMiddleware;
 var cim = image.connectImageMiddleware;
+
+const argv = yargs.default('port', 3000).argv;
+const port = process.env.NEPTUNE_BACK_PORT || argv.port;
 
 export var app = koa();
 
@@ -89,4 +94,10 @@ app.route('/local/images')
 app.get('/local/images/:iname', cldm, cim, image.inspect);
 app.delete('/local/images/:iname', cldm, cim, image.remove);
 
-app.listen(3000);
+app.listen(port, err => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('%s listening on port %s', pkg.name, port);
+  }
+});
