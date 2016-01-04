@@ -1,5 +1,5 @@
 {
-  "name": "dmm-backend",
+  "name": "neptune-back",
   "version": "0.0.1",
   "description": "Docker Machine Manager (Backend)",
   "main": "/dist/app.js",
