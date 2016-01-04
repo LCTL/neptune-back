@@ -47,6 +47,7 @@ app.post('/machines/:name/restart', mem, machine.restart);
 app.post('/machines/:name/start', mem, machine.start);
 app.get('/machines/:name/status', mem, machine.status);
 app.post('/machines/:name/stop', mem, machine.stop);
+app.post('/machines/:name/regenerate-certs', mem, machine.regenerateCerts);
 
 app.get('/machines/:name/docker', mem, cdm, docker.info);
 

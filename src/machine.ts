@@ -69,3 +69,8 @@ export function * stop() {
   yield dm.stop(this.params.name, this.request.body);
   this.status = 204;
 }
+
+export function * regenerateCerts() {
+  yield dm.regenerateCert(this.params.name, this.request.body);
+  this.status = 204;
+}

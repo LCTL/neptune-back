@@ -120,6 +120,11 @@ describe('/machines', () => {
     expect(res.body).to.deep.equal({value: 'Running'});
   });
 
+  it('POST /machines/:name/regenerate-certs should regenerate certs for machine', function *() {
+    var machineName = yield firstMachineName();
+    yield request.post(`/machines/${machineName}/regenerate-certs`).expect(204).end();
+  });
+
   it('DELETE /machines/:name should remove machine', function *() {
     var machineName = yield firstMachineName();
     yield request.delete(`/machines/${machineName}`).expect(204).end();
