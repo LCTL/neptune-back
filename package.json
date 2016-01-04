@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Docker Machine Manager (Backend)",
   "main": "/dist/app.js",
+  "bin": "/dist/app.js",
   "config": {
     "test_timeout": "3000000"
   },
